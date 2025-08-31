@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Commander",
+  "version": "0.1.0",
+  "identifier": "com.commander",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Commander",
+        "width": 600,
+        "height": 700,
+        "resizable": true,
+        "fullscreen": false,
+        "alwaysOnTop": false,
+        "skipTaskbar": true,
+        "visible": true,
+        "decorations": true,
+        "transparent": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "resources": [
+      "default.metallib"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "11.0"
+    },
+    "icon": [
+      "icons/commander-icon.png",
+      "icons/commander-128x128.png",
+      "icons/commander-256x256.png",
+      "icons/commander.icns",
+      "icons/commander.ico"
+    ]
+  }
+}

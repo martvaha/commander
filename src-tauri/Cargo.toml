@@ -1,0 +1,49 @@
+[package]
+name = "commander"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "commander_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-opener = "2"
+tauri-plugin-log = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri-plugin-clipboard-manager = "2"
+tauri-plugin-global-shortcut = "2"
+cpal = { version = "0.15", features = ["jack"] }
+hound = "3"
+reqwest = { version = "0.12", features = ["json", "multipart", "rustls-tls", "stream"] }
+tokio = { version = "1", features = [
+    "rt-multi-thread",
+    "macros",
+    "fs",
+    "time",
+    "net",
+] }
+# macOS crash fix attempt: newer rdev has HIToolbox/TIS handling improvements
+rdev = "0.5.3"
+anyhow = "1"
+whisper-rs = { version = "0.11", features = ["metal"] }
+whisper-rs-sys = "0.9"
+hyper = { version = "0.14", features = ["http1", "server", "tcp"] }
+bytes = "1"
+urlencoding = "2"
+percent-encoding = "2"
+log = "0.4"
+futures-util = "0.3"
+

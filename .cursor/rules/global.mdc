@@ -1,0 +1,8 @@
+---
+description: Rules to always follow
+globs:
+alwaysApply: true
+---
+
+- This project is macos only.
+- Never leave old code in just in case as a fallback.
