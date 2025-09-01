@@ -21,14 +21,16 @@ A macOS-only speech-to-text transcription app that lives in your menu bar with a
 
 ## Installation
 
-### Requirements
+### 1. Requirements
 
-- macOS 11.0+
-- Rust (latest stable)
-- Node.js and pnpm
-- Microphone permission (requested on first record)
+- macOS with Apple Silicon
 
-### Build from source
+### 2.1. Download
+[Download the latest release](https://github.com/martvaha/commander/releases/latest)
+
+### 2.2. Build from source (optional)
+
+Make sure you have Tauri prerequisites installed: [Tauri prerequisites for macOS](https://v2.tauri.app/start/prerequisites/#macos)
 
 ```bash
 # Install dependencies
@@ -41,12 +43,15 @@ pnpm tauri dev
 pnpm tauri build
 ```
 
-## Usage
+### 3. Remove Apple restriction
 
-- Configure your preferred global shortcut in the main window
-- Use the shortcut to toggle recording from anywhere in macOS
-- Watch the menu bar icon change to confirm status (idle → recording → transcribing)
-- After transcription, paste the text where you need it
+After downloading and installing Commander, macOS may prevent it from running due to Gatekeeper security restrictions. To allow Commander to run, you need to remove the quarantine attribute:
+
+![](docs/assets/apple-gatekeeper.png)
+
+```bash
+xattr -d com.apple.quarantine /Applications/Commander.app
+```
 
 ## Development
 
