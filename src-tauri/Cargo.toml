@@ -1,8 +1,8 @@
 [package]
 name = "commander"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.1.1"
+description = "A macOS-only speech-to-text transcription app that lives in your menu bar with a global shortcut for hands-free capture. Audio never leaves your device."
+authors = ["Märt Vaha"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

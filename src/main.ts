@@ -49,6 +49,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   // Track recording state for button text
   let isRecording = false;
+  const axBanner = document.getElementById('ax-banner') as HTMLDivElement | null;
+  const openAxBtn = document.getElementById('open-ax-settings-btn') as HTMLButtonElement | null;
+  const recheckAxBtn = document.getElementById('recheck-ax-btn') as HTMLButtonElement | null;
   const recordBtn = document.getElementById(
     'test-recording-btn'
   ) as HTMLButtonElement;
@@ -70,6 +73,45 @@ window.addEventListener('DOMContentLoaded', async () => {
         setTimeout(() => {
           recordBtn.disabled = false;
         }, 500);
+      }
+    });
+  }
+
+  // Handle backend-emitted accessibility status
+  await listen('accessibility-status', (e) => {
+    try {
+      const trusted = !!(e.payload as any)?.trusted;
+      if (axBanner) axBanner.style.display = trusted ? 'none' : 'block';
+    } catch {}
+  });
+
+  // Initial client-side check (only works on macOS build where commands exist)
+  if (isMac) {
+    try {
+      const trusted = (await invoke('is_accessibility_trusted')) as boolean;
+      if (axBanner) axBanner.style.display = trusted ? 'none' : 'block';
+    } catch {
+      // Command may not exist on non-mac builds; ignore
+    }
+  }
+
+  if (openAxBtn) {
+    openAxBtn.addEventListener('click', async () => {
+      try {
+        await invoke('open_accessibility_settings');
+      } catch (e) {
+        console.error('Failed to open Accessibility settings:', e);
+      }
+    });
+  }
+
+  if (recheckAxBtn) {
+    recheckAxBtn.addEventListener('click', async () => {
+      try {
+        const trusted = (await invoke('is_accessibility_trusted')) as boolean;
+        if (axBanner) axBanner.style.display = trusted ? 'none' : 'block';
+      } catch (e) {
+        console.error('Failed to recheck Accessibility status:', e);
       }
     });
   }

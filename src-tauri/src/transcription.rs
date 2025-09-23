@@ -126,10 +126,10 @@ fn trigger_auto_paste(_text: String) {
         {
             use rdev::{simulate, EventType, Key};
             let _ = simulate(&EventType::KeyPress(Key::MetaLeft));
-            std::thread::sleep(std::time::Duration::from_millis(5));
+            std::thread::sleep(std::time::Duration::from_millis(50));
             let _ = simulate(&EventType::KeyPress(Key::KeyV));
             let _ = simulate(&EventType::KeyRelease(Key::KeyV));
-            std::thread::sleep(std::time::Duration::from_millis(5));
+            std::thread::sleep(std::time::Duration::from_millis(50));
             let _ = simulate(&EventType::KeyRelease(Key::MetaLeft));
         }
     });

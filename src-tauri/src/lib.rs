@@ -116,7 +116,11 @@ pub fn run() {
             commands::list_audio_input_devices,
             commands::get_selected_audio_input_device,
             commands::save_selected_audio_input_device,
-            commands::apply_selected_audio_input_device
+            commands::apply_selected_audio_input_device,
+            #[cfg(target_os = "macos")]
+            commands::is_accessibility_trusted,
+            #[cfg(target_os = "macos")]
+            commands::open_accessibility_settings
         ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {
@@ -275,9 +279,12 @@ pub fn run() {
                 use tauri::ActivationPolicy;
                 let _ = app.set_activation_policy(ActivationPolicy::Accessory);
             }
-            // Check accessibility permissions on macOS
+            // Emit current accessibility trust status to UI instead of auto-opening settings
             #[cfg(target_os = "macos")]
-            platform::check_accessibility_permissions();
+            {
+                let trusted = platform::is_accessibility_trusted();
+                let _ = app.emit("accessibility-status", serde_json::json!({"trusted": trusted}));
+            }
             
             // Load saved shortcut configuration
             let config_dir = app.path().app_config_dir().ok();

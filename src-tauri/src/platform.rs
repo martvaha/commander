@@ -19,4 +19,16 @@ pub fn check_accessibility_permissions() {
     }
 }
 
+#[cfg(target_os = "macos")]
+pub fn is_accessibility_trusted() -> bool {
+    unsafe { AXIsProcessTrusted() }
+}
+
+#[cfg(target_os = "macos")]
+pub fn open_accessibility_settings() {
+    let _ = std::process::Command::new("open")
+        .arg("x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
+        .spawn();
+}
+
 

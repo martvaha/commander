@@ -3,6 +3,8 @@ use crate::config::{AutoPasteConfig, HoldToRecordConfig, LanguageConfig, PromptC
 use crate::http_server::{load_model, is_model_loaded};
 use crate::transcription::transcribe_and_copy;
 use crate::tray::{make_recording_icon, make_transcribing_icon};
+#[cfg(target_os = "macos")]
+use crate::platform;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 use tauri::{image::Image, AppHandle, Manager, Emitter};
@@ -405,4 +407,17 @@ pub fn apply_selected_audio_input_device(app_handle: tauri::AppHandle, controlle
     controller.set_device(selected).map_err(|e| e.to_string())
 }
 
+
+#[cfg(target_os = "macos")]
+#[tauri::command]
+pub fn is_accessibility_trusted() -> Result<bool, String> {
+    Ok(platform::is_accessibility_trusted())
+}
+
+#[cfg(target_os = "macos")]
+#[tauri::command]
+pub fn open_accessibility_settings() -> Result<(), String> {
+    platform::open_accessibility_settings();
+    Ok(())
+}
 
